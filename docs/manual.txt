@@ -1,0 +1,26 @@
+Manual
+Doge - is a simple Shiny application that implements prediction modelling for purposes of flower classification.
+
+
+
+Intro:
+
+Doge is a very intelligent dog. He loves flowers, particularly irises. In fact, he loves them so much so that he can classify them into 3 species with a very high accuracy (~97% on average) and he can draw them too! (the last part is debatable though).
+
+
+Functionality:
+
+Providing an input for 4 numerical features, the app does 2 things:
+
+1. For manual inputs it makes a prediction on the screen and draws a flower;
+2. For uploaded datasets it creates a downloadable document with predictions.
+
+
+"If you want a single prediction or you just like Doge's art, you can input corresponding values under the text 'You can select flower dimensions manually:'. Here you can tell Doge dimensions of your flower's petals and sepals in centimeters."
+
+"After you have provided input you can press button 'Doge, predict!' to get Doge's prediction and button 'Doge, draw my flower!' to witness Doge's creative skills in action on the corresponding tabs 'Doge's single prediction' and 'Dodge's Art'."
+
+"If you have several flowers (and you measured them all), you can upload it under the text 'Or you can input data in a csv-file'. Your file must be in a CSV format and it should be named appropriately (read the page itself). You can select your separator and quotation marks. Alternatively, you can use test dataset with the button 'Predict test dataset!'."
+
+"The results of the prediction are previewed on the tab 'Dodge's multiple predictions' (no more than 10 results at once) and after inputing the name of the desired output file you can download it in the CSV format on your computer."
+Also, you can download the test dataset with 'Download test dataset' button.

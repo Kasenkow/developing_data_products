@@ -25,7 +25,10 @@ shinyUI(fluidPage(
       
       actionButton("draw", "Doge, draw my flower!"),
       
-      # Horizontal line ----
+      # Horizontal line
+      tags$hr(),
+      h4("Predict on test"),
+      actionButton("multi", "Predict test dataset!"),
       tags$hr(),
       
       h4("Or you can input data in a csv-file"),
@@ -38,9 +41,6 @@ shinyUI(fluidPage(
                 accept = c("text/csv",
                            "text/comma-separated-values,text/plain",
                            ".csv")),
-      
-      # Input: Checkbox if file has header ----
-      checkboxInput("header", "Header", TRUE),
       
       # Input: Select separator ----
       radioButtons("sep", "Separator",
@@ -66,24 +66,29 @@ shinyUI(fluidPage(
       textInput("inpFile", label = NULL, width = 400),
       
       # Button
-      downloadButton("downloadData", "Download")
+      downloadButton("downloadData", "Download"),
+      
+      # Horizontal line
+      tags$hr(),
+      
+      h4("Download test dataset:"),
+      
+      h5("Enter file name"),
+      
+      textInput("inpFile", label = NULL, width = 400),
+      
+      # Button
+      downloadButton("downloadData2", "Download")
       
     ),
     
     # Main panel for displaying outputs ----
     mainPanel(
       
-      h3("Doge's single prediction:"),
-      p("(for manual input)"),
-      textOutput("wow"),
-      plotOutput("pic", height = 150, width = 150),
-      
-      # Output: Data file ----
-      h3("Doge's multiple predictions"),
-      p("(preview of CSV output)"),
-      tableOutput("predictions")
-      
-    )
-    
-  )
-))
+      tabsetPanel(type = "tabs",
+                  tabPanel("Manual", tableOutput("manual")),
+                  tabPanel("Doge's single prediction:", textOutput("wow")),
+                  tabPanel("Doge's Art", plotOutput("pic", height = 150, width = 150)),
+                  tabPanel("Doge's multiple predictions", tableOutput("predictions"))
+    ))
+)))

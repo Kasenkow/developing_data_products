@@ -22,7 +22,7 @@ shinyServer(function(input, output) {
     tryCatch(
       {
         df <- read.csv(input$file1$datapath,
-                       header = input$header,
+                       # header = input$header,
                        sep = input$sep,
                        quote = input$quote)
       },
@@ -37,6 +37,11 @@ shinyServer(function(input, output) {
                                                      "Sepal.Width" = input$sepwid,
                                                      "Petal.Length" = input$petlen,
                                                      "Petal.Width" = input$petwid))})
+  
+  pred2 <- reactive({predict(model, newdata = read.csv("data/for_prediction.csv"))})
+  
+  output$manual <- renderTable({read.table("docs/manual.txt", sep = "\t", header = T)})
+  
   output$wow <- renderText({
     if (input$go == 0) "Doge wants you to press 'predict' button"
     else if (input$go == 1) paste0("Wow you pressed it! Your flower is ", pred1())
@@ -67,8 +72,13 @@ shinyServer(function(input, output) {
 
   output$predictions <- renderTable({
     
-    modelpred <- reactive({predict(model, newdata = m_df())})
-    num_row = nrow(m_df())
+    modelpred <- reactive({
+      if (input$multi == 0) predict(model, newdata = m_df())
+      else pred2()
+      })
+    
+    num_row = length(modelpred())
+    
     if (num_row >= 10) {
       return(tibble(id = 1:10, prediction = head(modelpred(), 10)))
     } else{
@@ -82,13 +92,27 @@ shinyServer(function(input, output) {
     
   })
   
-  # Downloadable csv of selected dataset ----
+  outfile2 <- reactive({read.csv("data/for_prediction.csv")})
+  
+  # Downloadable csv of predictions ----
   output$downloadData <- downloadHandler(
     filename = function() {
       paste0(input$inpFile, ".csv")
     },
     content = function(file) {
       write.csv(outfile(), file, row.names = FALSE)
+    }
+  )
+  
+  
+  
+  # Downloadable csv of dataset ----
+  output$downloadData2 <- downloadHandler(
+    filename = function() {
+      paste0(input$inpFile, ".csv")
+    },
+    content = function(file) {
+      write.csv(outfile2(), file, row.names = FALSE)
     }
   )
   
